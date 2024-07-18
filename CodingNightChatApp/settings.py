@@ -74,6 +74,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CodingNightChatApp.wsgi.application'
+# set the ASGI_APPLICATION setting to point to that routing object as the root application
+ASGI_APPLICATION = "CodingNightChatApp.asgi.application"
 
 
 # Database
