@@ -30,9 +30,12 @@ ALLOWED_HOSTS = []
 
 # Application definition
 # install new app: ChatApp
-# add daphne to the beginning of your INSTALLED_APPS setting
+# add daphne to the beginning of your INSTALLED_APPS setting 
+# - to install the Daphne’s ASGI version of the runserver management command
+# add "channels" for Channel’s runworker command.
 INSTALLED_APPS = [
-    'daphne'
+    'daphne',
+    'channels',
     'ChatApp',
     'django.contrib.admin',
     'django.contrib.auth',
