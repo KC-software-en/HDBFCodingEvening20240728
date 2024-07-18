@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 # install new app: ChatApp
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # add daphne to the beginning of your INSTALLED_APPS setting 
 # - to install the Daphne’s ASGI version of the runserver management command
 # add "channels" for Channel’s runworker command.
@@ -74,6 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CodingNightChatApp.wsgi.application'
+# https://channels.readthedocs.io/en/latest/installation.html#installation
 # set the ASGI_APPLICATION setting to point to that routing object as the root application
 ASGI_APPLICATION = "CodingNightChatApp.asgi.application"
 
