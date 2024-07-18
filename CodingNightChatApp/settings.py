@@ -30,7 +30,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 # install new app: ChatApp
+# add daphne to the beginning of your INSTALLED_APPS setting
 INSTALLED_APPS = [
+    'daphne'
     'ChatApp',
     'django.contrib.admin',
     'django.contrib.auth',
