@@ -18,7 +18,7 @@ from channels.routing import ProtocolTypeRouter
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'CodingNightChatApp.settings')
 
-# # https://channels.readthedocs.io/en/latest/installation.html#installation
+# https://channels.readthedocs.io/en/latest/installation.html#installation
 # initialise Django ASGI application early to ensure the AppRegistry is populated
 # - before importing code that may import ORM models.
 # changed application to django_asgi_app
