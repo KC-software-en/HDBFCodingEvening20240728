@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# install new app: ChatApp
 INSTALLED_APPS = [
     'ChatApp',
     'django.contrib.admin',
