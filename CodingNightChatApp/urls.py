@@ -18,7 +18,8 @@ from django.contrib import admin
 # import include from django.urls
 from django.urls import path, include
 
+# add a URL that will point to ChatApp
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('webapp/', include('webapp.urls'))
+    path('', include('ChatApp.urls')) # note: leave as empty str don't put ChatApp
 ]
