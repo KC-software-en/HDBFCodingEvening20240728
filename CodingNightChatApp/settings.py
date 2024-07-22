@@ -77,11 +77,24 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CodingNightChatApp.wsgi.application'
+
 # https://channels.readthedocs.io/en/latest/installation.html#installation
 # set the ASGI_APPLICATION setting to point to that routing object as the root application
 # - point Daphne at the root routing configuration
 ASGI_APPLICATION = "CodingNightChatApp.asgi.application"
 
+# https://channels.readthedocs.io/en/latest/tutorial/part_2.html#enable-a-channel-layer
+# configure channel layer
+# - a kind of communication system that allows multiple consumer instances to talk to each other & other parts of Django
+# NOTE: it's possible to configure multiple channel layers but most projects use a single 'default' channel layer
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
