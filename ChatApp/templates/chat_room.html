@@ -27,7 +27,7 @@
             if (storedMessages) {
                 const messages = JSON.parse(storedMessages);
                 messages.forEach(message => {
-                    document.querySelector('#chat-log').value += (message + '\n');
+                    document.querySelector('#chat-log').value += (message.timestamp + ' ' + message.text + '\n');
                 });
             }
         }
@@ -50,10 +50,16 @@
 
         // modify chatSocket.onmessage from https://channels.readthedocs.io/en/latest/tutorial/part_2.html#add-the-room-view 
         // to call saveMessage & save the message in localStorage in addition to displaying it in the chat log
+        // Display timestamps for each message in chat log & save it in localStorage.
+        // https://www.w3schools.com/jsref/jsref_tolocalestring.asp
+        // toLocaleString() method returns a Date object as a string, using locale settings
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            const message = data.message;
-            document.querySelector('#chat-log').value += (message + '\n');
+            const message = {
+                text: data.message,
+                timestamp: new Date().toLocaleString()
+            };
+            document.querySelector('#chat-log').value += (message.timestamp + ' ' + message.text + '\n');
             saveMessage(message);  // Save the received message to localStorage
         };
 
@@ -68,11 +74,15 @@
             }
         };
 
+        // add timestamp to the message sent
+        // https://www.w3schools.com/jsref/jsref_tolocalestring.asp
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
+            const timestamp = new Date().toLocaleString()
             chatSocket.send(JSON.stringify({
-                'message': message
+                'message': message,
+                'timestamp': timestamp
             }));
             messageInputDom.value = '';
         };
