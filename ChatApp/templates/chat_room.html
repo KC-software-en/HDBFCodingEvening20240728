@@ -12,6 +12,13 @@
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
+        // fetch username from localStorage because it will be used to store sent messages
+        // check for cuccessful retrieval of username
+        const username = localStorage.getItem('username');
+        if (!username) {
+            alert('Username was not found in localStorage');
+        }        
+
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -27,7 +34,7 @@
             if (storedMessages) {
                 const messages = JSON.parse(storedMessages);
                 messages.forEach(message => {
-                    document.querySelector('#chat-log').value += (message.timestamp + ' ' + message.text + '\n');
+                    document.querySelector('#chat-log').value += (message.username + '\n' + message.timestamp + ' ' + message.text + '\n');
                 });
             }
         }
@@ -53,13 +60,15 @@
         // Display timestamps for each message in chat log & save it in localStorage.
         // https://www.w3schools.com/jsref/jsref_tolocalestring.asp
         // toLocaleString() method returns a Date object as a string, using locale settings
+        // display the username for a sent message
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             const message = {
                 text: data.message,
-                timestamp: new Date().toLocaleString()
+                timestamp: new Date().toLocaleString(),
+                username: data.username
             };
-            document.querySelector('#chat-log').value += (message.timestamp + ' ' + message.text + '\n');
+            document.querySelector('#chat-log').value += (message.username + '\n' + message.timestamp + ' ' + message.text + '\n\n');
             saveMessage(message);  // Save the received message to localStorage
         };
 
@@ -76,14 +85,17 @@
 
         // add timestamp to the message sent
         // https://www.w3schools.com/jsref/jsref_tolocalestring.asp
+        // add username for a sent message
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            const timestamp = new Date().toLocaleString()
+            const timestamp = new Date().toLocaleString();            
             chatSocket.send(JSON.stringify({
                 'message': message,
-                'timestamp': timestamp
+                'timestamp': timestamp,
+                'username': username
             }));
+
             messageInputDom.value = '';
         };
     </script>
