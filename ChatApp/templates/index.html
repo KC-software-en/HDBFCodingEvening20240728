@@ -7,6 +7,7 @@
 </head>
 <body>
     <!--required fields for username and chat room name-->
+    <!--https://www.geeksforgeeks.org/how-to-use-the-required-attribute-in-html/-->
     Enter your username<br>
     <input id="username-input" type="text" required><br><br>
 
@@ -36,8 +37,14 @@
             const username = document.querySelector('#username-input').value;
             const roomName = document.querySelector('#room-name-input').value;
 
+            // check both input fields were filled
+            if (!username || ! roomName) {
+                alert('Complete all input fields to enter a chat room');
+                return;
+            }
+
             // use Local storage for usernames
-            localStorage.setItem('username', username)
+            localStorage.setItem('username', username);
 
             window.location.pathname = '/ChatApp/' + roomName + '/';
         };
