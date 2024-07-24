@@ -90,15 +90,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # retrieve the value associated with the key "message" from the text_data_json dictionary
         # - it's the actual message content sent through the WebSocket.
+        # retrieve the value associated with the key "username" from the text_data_json dictionary
         message = text_data_json["message"]
+        username = text_data_json["username"]
 
         # Send message to room group
         # send the message to all WebSocket connections that are part of the specified group (room_group_name).
         # send the message as a dictionary with a type identifier "chat.message" & the actual message content.
         # Django Channels uses this type identifier to call the corresponding method in the consumer that handles chat messages
         # - messages will route to chat_message()
+        # send the username associated with the message to all WebSocket connections
         await self.channel_layer.group_send(
-            self.room_group_name, {"type": "chat.message", "message": message}
+            self.room_group_name, {"type": "chat.message", "message": message, "username": username}
         )
 
     # Receive message from room group
@@ -109,8 +112,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         :type event: dict
         """
         # retrieve the message content sent to the room group by extracting the value for the key "message" in the event dict
+        # retrieve the username which sent the message content
+        # - needed to ensure display of username in chat log
         message = event["message"]
+        username = event["username"]
 
         # Send message to WebSocket
+        # sen username to WebSocket to ensure display in chat log
         # convert the Python dictionary into a JSON-formatted string for transmission to the WebSocket with dumps method
-        await self.send(text_data=json.dumps({"message": message}))
+        await self.send(text_data=json.dumps({"message": message, "username": username}))
