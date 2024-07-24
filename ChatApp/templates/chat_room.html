@@ -20,9 +20,41 @@
             + '/'
         );
 
+        // create a function to load messages from localStorage
+        // https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+        function loadMessages() {
+            const storedMessages = localStorage.getItem('chatMessages_' + roomName);
+            if (storedMessages) {
+                const messages = JSON.parse(storedMessages);
+                messages.forEach(message => {
+                    document.querySelector('#chat-log').value += (message + '\n');
+                });
+            }
+        }
+
+        // call the loadMessages function when browser page refreshes
+        // https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
+        window.onload = loadMessages;
+
+        // create a function to save messages to localStorage
+        // https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#setting_values_in_storage
+        function saveMessage(message) {
+            const storedMessages = localStorage.getItem('chatMessages_' + roomName);
+            let messages = [];
+            if (storedMessages) {
+                messages = JSON.parse(storedMessages);
+            }
+            messages.push(message);
+            localStorage.setItem('chatMessages_' + roomName, JSON.stringify(messages));
+        }
+
+        // modify chatSocket.onmessage from https://channels.readthedocs.io/en/latest/tutorial/part_2.html#add-the-room-view 
+        // to call saveMessage & save the message in localStorage in addition to displaying it in the chat log
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
+            const message = data.message;
+            document.querySelector('#chat-log').value += (message + '\n');
+            saveMessage(message);  // Save the received message to localStorage
         };
 
         chatSocket.onclose = function(e) {
