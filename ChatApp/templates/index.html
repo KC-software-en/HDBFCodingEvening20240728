@@ -31,8 +31,14 @@
             }
         };
 
+        // set const for inputs that will be stored in localStorage
         document.querySelector('#room-name-submit').onclick = function(e) {            
-            var roomName = document.querySelector('#room-name-input').value;
+            const username = document.querySelector('#username-input').value;
+            const roomName = document.querySelector('#room-name-input').value;
+
+            // use Local storage for usernames
+            localStorage.setItem('username', username)
+
             window.location.pathname = '/ChatApp/' + roomName + '/';
         };
     </script>
