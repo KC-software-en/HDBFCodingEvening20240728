@@ -10,4 +10,5 @@ from . import consumers
 # - (Django’s session framework needs the database). then start the Channels development server
 websocket_urlpatterns = [
     re_path(r"ws/ChatApp/(?P<room_name>\w+)/$", consumers.ChatConsumer.as_asgi()),
+    re_path(r"ws/presence/(?P<room_name>\w+)/$", consumers.PresenceConsumer.as_asgi()),
     ]
