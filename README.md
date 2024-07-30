@@ -2,7 +2,15 @@
 ChatApp
 
 # Project description
-A simple real-time chat application built with Django, Python, HTML, CSS.
+A simple real-time chat application built with Django, Python, HTML, CSS. 
+
+Functionality:
++ Allow users to enter a username before joining the chat.
++ Display a list of online users - incomplete
++ Send and receive messages in real-time.
++ Persist chat messages in local storage so that they are not lost on page refresh.
++ Display timestamps for each message.
+
 
 # Installation section
 1. Install Packages:
